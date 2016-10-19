@@ -12,46 +12,38 @@ namespace Xml_To_Excel.Utility
 {
     public class ReadXmlFoder
     {
-        async void Read()
-        {
-            string directory = @"D:\Test";
-            foreach (var fi in new DirectoryInfo(directory)
-                .EnumerateFiles("*.xml", SearchOption.AllDirectories))
-            {
-                #region FromXml
-                XmlSerializer formatter = new XmlSerializer(typeof(Bill));
-                string tmp = string.Empty;
-                using (StreamReader sr = new StreamReader(fi.FullName, Encoding.Default))
-                {
-                    tmp += await sr.ReadToEndAsync();
-                }
-                Bill bill;
-                XmlDocument xDoc = new XmlDocument();
-                xDoc.LoadXml(tmp.Replace("\x0c", ""));
-                var test = DeserializeFromXmlDocument(xDoc);
-                using (FileStream fs = new FileStream(@"01.2016_New.xml", FileMode.Open))
-                {
-                    XmlReader reader = XmlReader.Create(xDoc.InnerText,);
-                    bill = (Bill)formatter.Deserialize(reader);
-                }
-                #endregion
-            }
-        }
-            static IEnumerable<Bill> DeserializeFromXmlDocument(XmlDocument doc)
-        {
-                XmlSerializer seri = new XmlSerializer(typeof(Bill));
+        string directory = @"C:\Users\eveks\Downloads\Telegram Desktop";
 
-                using (var reader = new XmlNodeReader(doc.DocumentElement))
+        static async Task<IEnumerable<Bill>> Read(string directory)
+        => await Task.Run(() =>
+        {
+            return new DirectoryInfo(directory)
+                .EnumerateFiles("*.xml", SearchOption.AllDirectories)
+                .Select(fi =>
                 {
-                    reader.MoveToContent();
-                    reader.ReadStartElement();
-                    while (reader.IsStartElement())
+                    XmlSerializer formatter = new XmlSerializer(typeof(Bill));
+                    string tmp = string.Empty;
+                    using (StreamReader sr = new StreamReader(fi.FullName, Encoding.Default))
                     {
-                        Bill entry = (Bill)seri.Deserialize(reader);
-                        yield return entry;
+                        tmp += sr.ReadToEndAsync().Result;
                     }
-                }
+
+                    XmlDocument xDoc = new XmlDocument();
+                    xDoc.LoadXml(tmp.Replace("\x0c", ""));
+                    return DeserializeFromXmlDocument(xDoc).Result;
+                });
+        });
+        static async Task<Bill> DeserializeFromXmlDocument(XmlDocument doc)
+        => await Task.Run(() =>
+        {
+            XmlSerializer seri = new XmlSerializer(typeof(Bill));
+            Bill bill;
+            using (var reader = new XmlNodeReader(doc.DocumentElement))
+            {
+                bill = (Bill)seri.Deserialize(reader);
             }
-        }
+            return bill;
+        });
     }
+}
 
