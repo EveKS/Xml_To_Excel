@@ -15,7 +15,8 @@ namespace Xml_To_Excel.Utility
     }
     public class ExcelManager
     {
-        public object[,] ListExcelArrayMaker(ExcelSelect excelSelect)
+        public async Task<object[,]> ListExcelArrayMaker(ExcelSelect excelSelect)
+        => await Task.Run(() =>
         {
             Excel.Application excel = new Excel.Application();
             excel.Visible = false;
@@ -28,6 +29,6 @@ namespace Xml_To_Excel.Utility
 
             excel.Quit();
             return exc;
-        }
+        });
     }
 }
