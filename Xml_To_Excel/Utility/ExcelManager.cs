@@ -13,7 +13,7 @@ namespace Xml_To_Excel.Utility
         public string SelectInExelFrom { get; set; }
         public string SelectInExelTo { get; set; }
     }
-    class ExcelManager
+    public class ExcelManager
     {
         public object[,] ListExcelArrayMaker(ExcelSelect excelSelect)
         {

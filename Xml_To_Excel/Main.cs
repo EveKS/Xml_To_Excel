@@ -10,9 +10,21 @@ using System.Windows.Forms;
 
 namespace Xml_To_Excel
 {
-    public partial class Form1 : Form
+    public interface IMainForm
     {
-        public Form1()
+        string SelectXmlFolderPath { get; }
+        string SelectExelPath { get; }
+        string SelectSaveFolderPath { get; }
+        string SaveName { get; }
+
+        event EventHandler SelectXml;
+        event EventHandler SelectExel;
+        event EventHandler SavePath;
+        event EventHandler Save;
+    }
+    public partial class Main : Form, IMainForm
+    {
+        public Main()
         {
             InitializeComponent();
 
