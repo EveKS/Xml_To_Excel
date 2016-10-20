@@ -88,7 +88,7 @@ namespace Xml_To_Excel
         private void btnSelectExel_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "exel|*.xml;*.xlsx|Все файлы|*";
+            dlg.Filter = "Excel|*.xml;*.xlsx|Все файлы|*";
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
