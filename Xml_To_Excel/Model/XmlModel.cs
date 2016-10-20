@@ -397,6 +397,28 @@ namespace Xml2CSharp
         public string Text { get; set; }
     }
 
+    [XmlRoot(ElementName = "payment")]
+    public class Payment
+    {
+        [XmlElement(ElementName = "p_d")]
+        public string P_d { get; set; }
+        [XmlElement(ElementName = "p_s")]
+        public string P_s { get; set; }
+        [XmlElement(ElementName = "p_num")]
+        public string P_num { get; set; }
+        [XmlElement(ElementName = "p_sum")]
+        public string P_sum { get; set; }
+        [XmlElement(ElementName = "p_pd")]
+        public string P_pd { get; set; }
+    }
+
+    [XmlRoot(ElementName = "p_table")]
+    public class P_table
+    {
+        [XmlElement(ElementName = "payment")]
+        public List<Payment> Payment { get; set; }
+    }
+
     [XmlRoot(ElementName = "payments")]
     public class Payments
     {
@@ -417,7 +439,7 @@ namespace Xml2CSharp
         [XmlElement(ElementName = "p_tot")]
         public string P_tot { get; set; }
         [XmlElement(ElementName = "p_table")]
-        public string P_table { get; set; }
+        public P_table P_table { get; set; }
     }
 
     [XmlRoot(ElementName = "tot_ch")]
