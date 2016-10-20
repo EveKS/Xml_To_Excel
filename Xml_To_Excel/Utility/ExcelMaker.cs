@@ -64,20 +64,18 @@ namespace Xml_To_Excel.Utility
             Excel.Worksheet xlSht;
             //var abs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            //Книга.
             xlWb = xlApp.Workbooks.Add(System.Reflection.Missing.Value);
-            //Таблица.
             xlSht = (Excel.Worksheet)xlWb.Sheets[1];
 
             xlSht.Range["A1"]
                 .Resize[excalResult.GetUpperBound(0), excalResult.GetUpperBound(1)]
-                .Value = excalResult; //выгрузка массива на лист Excel начиная с А1
+                .Value = excalResult; 
             var excelDate = xmlData.Select(xml => xml.Date.ToString("MMM.yyyy")).ToArray();          
             xlSht.Range["D2"].Resize[1, excelDate.Length].Value = excelDate;
             xlSht.Columns["B:Z"].AutoFit();
 
-            xlWb.Close(true);//закрываем файл и сохраняем изменения, если не сохранять, то false
-            xlApp.Quit(); //закрываем Excel
+            xlWb.Close(true);
+            xlApp.Quit();
             #endregion
         });
         public static object[,] Sorts(object[,] arrExcel, string[,] arrXml, int n)
