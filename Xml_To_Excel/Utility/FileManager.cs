@@ -22,7 +22,6 @@ namespace Xml_To_Excel.Utility
         private readonly IReadXmlFoder _readXmlFolder;
         private readonly IExcelManager _excelManager;
 
-        // Наш конструктор
         public FileManager() : this(new ExcelMaker(), new ReadXmlFoder(), new ExcelManager())
         {        }
 
@@ -32,29 +31,25 @@ namespace Xml_To_Excel.Utility
             _readXmlFolder = readXmlFolder;
             _excelManager = excelManager;
         }
-        // кодировка по умолчанию
         private readonly Encoding _dafaultEncoding = Encoding.UTF8;
 
-        //проверка существования файла
         public bool IsExist(string filePath)
         {
             bool isExist = File.Exists(filePath);
             return isExist;
         }
-        //проверка существования папки
         public bool IsFolderExist(string folderPath)
         {
             bool isExist = Directory.Exists(folderPath);
             return isExist;
         }
 
-        // перегруженный метод MakeExcel
         public async Task GetExcel(string filePath, string xmlsPath)
         {
             await MakeExcel(filePath, xmlsPath, _dafaultEncoding);
         }
 
-        // Делаем наш excel
+        // Do Make
         public async Task MakeExcel(string excelPath, string xmlsPath, Encoding encoding)
             => await Task.Run(() =>
         {
