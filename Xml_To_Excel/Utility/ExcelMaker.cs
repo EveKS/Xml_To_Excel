@@ -30,10 +30,10 @@ namespace Xml_To_Excel.Utility
         => await Task.Run( async() =>
         {
             #region XmlToArray
-            ExcelData ExcelData = new ExcelData();
             var _xmls = await xmls;
             var xmlData = _xmls.Select(xml =>
             {
+                ExcelData ExcelData = new ExcelData();
                 ExcelData.Date = DateTime.Parse(xml.Title.B_start, null, DateTimeStyles.RoundtripKind);
                 var temp = xml.Ch_details.Charges_d.Charge_d.Select(d =>
                     new { call = d.C_num, tot = d.C_tot }).ToArray();
