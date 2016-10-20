@@ -9,10 +9,14 @@ namespace Xml_To_Excel.Utility
 {
     public interface IFileManager
     {
+        bool IsExist(string filePath);
+        bool IsFolderExist(string filePath);
 
+        void GetExcel(string filePath, string xmlsPath);
+        Task MakeExcel(string excelPath, string xmlsPath, Encoding encoding);
     }
 
-    public class FileManager
+    public class FileManager : IFileManager
     {
         private readonly IExcelMaker _excelMaker;
         private readonly IReadXmlFoder _readXmlFolder;
