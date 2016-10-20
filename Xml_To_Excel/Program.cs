@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Xml_To_Excel.Presenter;
+using Xml_To_Excel.Services;
+using Xml_To_Excel.Utility;
 
 namespace Xml_To_Excel
 {
@@ -16,7 +19,14 @@ namespace Xml_To_Excel
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+
+            MainForm form = new MainForm();
+            MessageService service = new MessageService();
+            FileManager manager = new FileManager();
+
+            MainPresenter presenter = new MainPresenter(form, manager, service);
+
+            Application.Run(form);
         }
     }
 }

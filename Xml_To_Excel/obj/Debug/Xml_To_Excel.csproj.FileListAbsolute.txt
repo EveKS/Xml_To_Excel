@@ -13,6 +13,6 @@ E:\Git_project\Xml_To_Excel\Xml_To_Excel\obj\Debug\Xml_To_Excel.pdb
 E:\Git_project\Xml_To_Excel\Xml_To_Excel\bin\Debug\Xml_To_Excel.exe
 E:\Git_project\Xml_To_Excel\Xml_To_Excel\bin\Debug\Xml_To_Excel.pdb
 E:\Git_project\Xml_To_Excel\Xml_To_Excel\obj\Debug\Xml_To_Excel.csprojResolveAssemblyReference.cache
-E:\Git_project\Xml_To_Excel\Xml_To_Excel\obj\Debug\Xml_To_Excel.Main.resources
 E:\Git_project\Xml_To_Excel\Xml_To_Excel\obj\Debug\Xml_To_Excel.Properties.Resources.resources
 E:\Git_project\Xml_To_Excel\Xml_To_Excel\obj\Debug\Xml_To_Excel.csproj.GenerateResource.Cache
+E:\Git_project\Xml_To_Excel\Xml_To_Excel\obj\Debug\Xml_To_Excel.MainForm.resources

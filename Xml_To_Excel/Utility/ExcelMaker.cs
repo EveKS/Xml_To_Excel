@@ -32,7 +32,7 @@ namespace Xml_To_Excel.Utility
             #region XmlToArray
             ExcelData ExcelData = new ExcelData();
             var _xmls = await xmls;
-            var excelData = _xmls.Select(xml =>
+            var xmlData = _xmls.Select(xml =>
             {
                 ExcelData.Date = DateTime.Parse(xml.Title.B_start, null, DateTimeStyles.RoundtripKind);
                 var temp = xml.Ch_details.Charges_d.Charge_d.Select(d =>
@@ -53,28 +53,30 @@ namespace Xml_To_Excel.Utility
             #region ToExcel
             Excel.Application xlApp = new Excel.Application();
 
-            for (int i = 4; i < excelData.Count; i++)
+            var excalResult = excel.Result;
+
+            for (int i = 4; i < xmlData.Count + 4; i++)
             {
-                var sortedArray = Sorts(excel.Result, excelData[i].Excel, i);
-                Excel.Workbook xlWb;
-                Excel.Worksheet xlSht;
-                var abs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-                //Книга.
-                xlWb = xlApp.Workbooks.Add(System.Reflection.Missing.Value);
-                //Таблица.
-                xlSht = (Excel.Worksheet)xlWb.Sheets[1];
-
-                xlSht.Cells[$"{abs[i]}2"] = excelData[i].Date.ToString("mm.yyyy");
-                xlSht.Range["A1"]
-                    .Resize[sortedArray.GetUpperBound(0), sortedArray.GetUpperBound(1)]
-                    .Value = sortedArray; //выгрузка массива на лист Excel начиная с А1
-                xlSht.Columns["B:Z"].AutoFit();
-
-
-                xlWb.Close(true);//закрываем файл и сохраняем изменения, если не сохранять, то false   
+                excalResult = Sorts(excalResult, xmlData[i - 4].Excel, i);
             }
 
+            Excel.Workbook xlWb;
+            Excel.Worksheet xlSht;
+            //var abs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            //Книга.
+            xlWb = xlApp.Workbooks.Add(System.Reflection.Missing.Value);
+            //Таблица.
+            xlSht = (Excel.Worksheet)xlWb.Sheets[1];
+
+            xlSht.Range["A1"]
+                .Resize[excalResult.GetUpperBound(0), excalResult.GetUpperBound(1)]
+                .Value = excalResult; //выгрузка массива на лист Excel начиная с А1
+            var excelDate = xmlData.Select(xml => xml.Date.ToString("MMM.yyyy")).ToArray();          
+            xlSht.Range["D2"].Resize[1, excelDate.Length].Value = excelDate;
+            xlSht.Columns["B:Z"].AutoFit();
+
+            xlWb.Close(true);//закрываем файл и сохраняем изменения, если не сохранять, то false
             xlApp.Quit(); //закрываем Excel
             #endregion
         });

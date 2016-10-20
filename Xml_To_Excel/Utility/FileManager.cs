@@ -12,7 +12,7 @@ namespace Xml_To_Excel.Utility
         bool IsExist(string filePath);
         bool IsFolderExist(string filePath);
 
-        void GetExcel(string filePath, string xmlsPath);
+        Task GetExcel(string filePath, string xmlsPath);
         Task MakeExcel(string excelPath, string xmlsPath, Encoding encoding);
     }
 
@@ -42,14 +42,14 @@ namespace Xml_To_Excel.Utility
             return isExist;
         }
         //проверка существования папки
-        public bool IsFolderExist(string filePath)
+        public bool IsFolderExist(string folderPath)
         {
-            bool isExist = Directory.Exists(filePath);
+            bool isExist = Directory.Exists(folderPath);
             return isExist;
         }
 
         // перегруженный метод MakeExcel
-        public async void GetExcel(string filePath, string xmlsPath)
+        public async Task GetExcel(string filePath, string xmlsPath)
         {
             await MakeExcel(filePath, xmlsPath, _dafaultEncoding);
         }
@@ -58,7 +58,11 @@ namespace Xml_To_Excel.Utility
         public async Task MakeExcel(string excelPath, string xmlsPath, Encoding encoding)
             => await Task.Run(() =>
         {
-            var a = _excelManager.ListExcelArrayMaker(new ExcelSelect());
+            ExcelSelect ExcelSelect = new ExcelSelect();
+            ExcelSelect.PathExelSelect = excelPath;
+            ExcelSelect.SelectInExelFrom = "A1";
+            ExcelSelect.SelectInExelTo = "Z500";
+            var a = _excelManager.ListExcelArrayMaker(ExcelSelect);
             var b = _readXmlFolder.Read(xmlsPath, encoding);
             _excelMaker.ToMakeExcel(b, a);
         });

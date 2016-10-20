@@ -19,12 +19,11 @@ namespace Xml_To_Excel
 
         event EventHandler SelectXml;
         event EventHandler SelectExel;
-        event EventHandler SavePath;
         event EventHandler Save;
     }
-    public partial class Main : Form, IMainForm
+    public partial class MainForm : Form, IMainForm
     {
-        public Main()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -36,11 +35,11 @@ namespace Xml_To_Excel
         #region IMainForm
         public string SelectExelPath
         {
-            get { return tbSelectXml.Text; }
+            get { return tbSelectExel.Text; }
         }
         public string SelectXmlFolderPath
         {
-            get { return tbSelectExel.Text; }
+            get { return tbSelectXml.Text; }
         }
         public string SelectSaveFolderPath
         {
@@ -53,7 +52,6 @@ namespace Xml_To_Excel
 
         public event EventHandler SelectExel;
         public event EventHandler SelectXml;
-        public event EventHandler SavePath;
         public event EventHandler Save;
         #endregion
 
@@ -76,8 +74,6 @@ namespace Xml_To_Excel
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 tbSavePath.Text = dlg.SelectedPath;
-
-                SavePath?.Invoke(this, EventArgs.Empty);
             }
         }
         private void btnSave_Click(object sender, EventArgs e)

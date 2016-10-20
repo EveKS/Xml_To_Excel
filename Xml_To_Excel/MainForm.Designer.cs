@@ -1,6 +1,6 @@
 ﻿namespace Xml_To_Excel
 {
-    partial class Main
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
