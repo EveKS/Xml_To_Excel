@@ -33,7 +33,7 @@ namespace Xml_To_Excel.Utility
             _excelManager = excelManager;
         }
         // кодировка по умолчанию
-        private readonly Encoding _dafaultEncoding = Encoding.Default;
+        private readonly Encoding _dafaultEncoding = Encoding.UTF8;
 
         //проверка существования файла
         public bool IsExist(string filePath)

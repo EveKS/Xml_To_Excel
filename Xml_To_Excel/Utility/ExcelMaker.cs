@@ -51,14 +51,14 @@ namespace Xml_To_Excel.Utility
 
 
             #region ToExcel
-            Excel.Application xlApp = new Excel.Application();
-
             var excalResult = excel.Result;
 
             for (int i = 4; i < xmlData.Count + 4; i++)
             {
                 excalResult = Sorts(excalResult, xmlData[i - 4].Excel, i);
             }
+
+            Excel.Application xlApp = new Excel.Application();
 
             Excel.Workbook xlWb;
             Excel.Worksheet xlSht;
