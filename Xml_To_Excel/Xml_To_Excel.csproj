@@ -62,6 +62,7 @@
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Utility\ExcelMaker.cs" />
     <Compile Include="Utility\ExcelManager.cs" />
+    <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\ReadXmlFoder.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

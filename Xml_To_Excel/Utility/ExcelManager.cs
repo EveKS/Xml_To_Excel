@@ -13,7 +13,13 @@ namespace Xml_To_Excel.Utility
         public string SelectInExelFrom { get; set; }
         public string SelectInExelTo { get; set; }
     }
-    public class ExcelManager
+
+    public interface IExcelManager
+    {
+        Task<object[,]> ListExcelArrayMaker(ExcelSelect excelSelect);
+    }
+
+    public class ExcelManager : IExcelManager
     {
         public async Task<object[,]> ListExcelArrayMaker(ExcelSelect excelSelect)
         => await Task.Run(() =>

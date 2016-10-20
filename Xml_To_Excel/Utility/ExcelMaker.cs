@@ -12,23 +12,29 @@ namespace Xml_To_Excel.Utility
     public class ExcelData
     {
         DateTime _date;
-        public string Date
+        public DateTime Date
         {
-            get { return _date.ToString("mm.yy"); }
-            set { _date = DateTime.Parse(value, null, DateTimeStyles.RoundtripKind); }
+            get { return _date; }
+            set { _date = value; }
         }
         public string[,] Excel { get; set; }
     }
-    public class ExcelMaker
+
+    public interface IExcelMaker
     {
-        async void ToMakeExcel(Task<IEnumerable<Bill>> xmls, Task<object[,]> excel)
+        void ToMakeExcel(Task<IEnumerable<Bill>> xmls, Task<object[,]> excel);
+    }
+    public class ExcelMaker : IExcelMaker
+    {
+        public async void ToMakeExcel(Task<IEnumerable<Bill>> xmls, Task<object[,]> excel)
+        => await Task.Run( async() =>
         {
             #region XmlToArray
             ExcelData ExcelData = new ExcelData();
             var _xmls = await xmls;
             var excelData = _xmls.Select(xml =>
             {
-                ExcelData.Date = xml.Title.B_start;
+                ExcelData.Date = DateTime.Parse(xml.Title.B_start, null, DateTimeStyles.RoundtripKind);
                 var temp = xml.Ch_details.Charges_d.Charge_d.Select(d =>
                     new { call = d.C_num, tot = d.C_tot }).ToArray();
 
@@ -40,7 +46,7 @@ namespace Xml_To_Excel.Utility
                 }
                 ExcelData.Excel = arrXml;
                 return ExcelData;
-            }).ToList();
+            }).OrderBy(xml=>xml.Date).ToList();
             #endregion
 
 
@@ -59,7 +65,7 @@ namespace Xml_To_Excel.Utility
                 //Таблица.
                 xlSht = (Excel.Worksheet)xlWb.Sheets[1];
 
-                xlSht.Cells[$"{abs[i]}2"] = excelData[i].Date;
+                xlSht.Cells[$"{abs[i]}2"] = excelData[i].Date.ToString("mm.yyyy");
                 xlSht.Range["A1"]
                     .Resize[sortedArray.GetUpperBound(0), sortedArray.GetUpperBound(1)]
                     .Value = sortedArray; //выгрузка массива на лист Excel начиная с А1
@@ -71,7 +77,7 @@ namespace Xml_To_Excel.Utility
 
             xlApp.Quit(); //закрываем Excel
             #endregion
-        }
+        });
         public static object[,] Sorts(object[,] arrExcel, string[,] arrXml, int n)
         {
             for (int i = 1; i <= arrExcel.GetLength(0); i++)

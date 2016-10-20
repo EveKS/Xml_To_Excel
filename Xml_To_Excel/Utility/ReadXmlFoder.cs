@@ -10,11 +10,13 @@ using Xml2CSharp;
 
 namespace Xml_To_Excel.Utility
 {
-    public class ReadXmlFoder
+    public interface IReadXmlFoder
     {
-        string directory = @"C:\Users\eveks\Downloads\Telegram Desktop";
-
-        static async Task<IEnumerable<Bill>> Read(string directory)
+        Task<IEnumerable<Bill>> Read(string directory, Encoding enc);
+    }
+    public class ReadXmlFoder : IReadXmlFoder
+    {
+        public async Task<IEnumerable<Bill>> Read(string directory, Encoding enc)
         => await Task.Run(() =>
         {
             return new DirectoryInfo(directory)
@@ -23,7 +25,7 @@ namespace Xml_To_Excel.Utility
                 {
                     XmlSerializer formatter = new XmlSerializer(typeof(Bill));
                     string tmp = string.Empty;
-                    using (StreamReader sr = new StreamReader(fi.FullName, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(fi.FullName, enc))
                     {
                         tmp += sr.ReadToEndAsync().Result;
                     }
